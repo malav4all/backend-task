@@ -10,7 +10,7 @@ const Header = () => {
           <Navbar.Brand>
             <img
               alt="logo"
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5crR8T6ymsm2WCisUc58ReSKQlVJTFTo3PQ&usqp=CAU"
+              src="https://eliteshop.com.bd/wp-content/uploads/2021/07/logo-1.png"
               width="50"
               height="50"
               className="d-inline-block align-center"
