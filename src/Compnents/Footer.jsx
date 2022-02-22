@@ -77,7 +77,7 @@ const Footer = () => {
               </div>
             </div>
             <div className="copy" style={{fontSize:"22px"}}>
-              <p>© 2022 Elite Shoppy All Rights Reserved | Design by Malav Naagar </p>
+              <p>© {new Date().getFullYear()} Elite Shoppy All Rights Reserved | Design by Malav Naagar </p>
 
             </div>
           </div>
