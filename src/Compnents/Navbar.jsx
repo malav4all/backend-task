@@ -1,12 +1,27 @@
 /* eslint-disable */
-import React,{useState} from "react";
+import React,{useState,useEffect} from "react";
 import {Navbar,Container,Nav,FormControl,Form,Button, Row, Col} from "react-bootstrap"
 import "../assests/css/modern.css"
 import LoginModal from "./Modals/LoginModal";
 import RegisterModal from "./Modals/RegisterModal";
-const Header = () => {
+import { useDispatch, useSelector,useHistory, useLocation } from "react-redux";
+import decode from 'jwt-decode';
+export const Header = () => {
   const [modalShow, setModalShow] = useState(false);
   const [registermodalShow, setRegisterModalShow] = useState(false);
+  const loginUser = useSelector((user) => user.auth);
+  console.log({loginUser})
+  useEffect(() => {
+    const token = loginUser?.data;
+
+    if (token) {
+      const decodedToken = decode(token);
+
+      if (decodedToken.exp * 1000 < new Date().getTime());
+    }
+
+    // setUser(JSON.parse(localStorage.getItem('accessToken')));
+  }, [location]);
   return (
     <>
       <Navbar collapseOnSelect expand="lg" id="header" fixed="top">
@@ -34,7 +49,7 @@ const Header = () => {
             </Form>
           </Nav>
           <Nav>
-            <Row className="justify-content-md-center">
+            {loginUser?.data ? (<p>Welcome{loginUser.data.name}</p>):( <Row className="justify-content-md-center">
               <Col xs>
                 <Nav>
                   <Button variant="danger" onClick={() => setModalShow(true)}>
@@ -60,12 +75,10 @@ const Header = () => {
                   />
                 </Nav>
               </Col>
-            </Row>
+            </Row>)}
           </Nav>
         </Container>
       </Navbar>
     </>
   );
 };
-
-export default Header;

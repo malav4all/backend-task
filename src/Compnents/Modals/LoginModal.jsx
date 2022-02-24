@@ -1,6 +1,6 @@
 import React from 'react';
 import {Modal,Button} from "react-bootstrap"
-import Login from '../../Pages/login';
+import {Login} from "../../Pages"
 const  LoginModal = (props) => {
   return (
     <>

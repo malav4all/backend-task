@@ -1,6 +1,6 @@
 import React from 'react';
 import {Modal,Button} from "react-bootstrap"
-import Register from '../../Pages/register';
+import {Register} from "../../Pages"
 const  RegisterModal = (props) => {
   return (
     <>

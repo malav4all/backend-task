@@ -9,7 +9,7 @@ const getemail = (event) => {
 const getpassword = (event) => {
   console.log(event.target.value);
 };
-const Register = (props) => {
+export const Register = (props) => {
   const iconcss = {
     background:
       "conic-gradient(from -45deg, #ea4335 110deg, #4285f4 90deg 180deg, #34a853 180deg 270deg, #fbbc05 270deg) 73% 55%/150% 150% no-repeat",
@@ -241,4 +241,3 @@ const Register = (props) => {
   );
 };
 
-export default Register;

@@ -2,9 +2,9 @@ import React, { useEffect} from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { setProducts } from "../redux/actions/productsActions";
-import ProductComponent from "./ProductComponent";
+import {ProductComponent} from "./index";
 
-const ProductPage = () => {
+export const ProductListing = () => {
   const products = useSelector((state) => state.allProducts.products);
   const dispatch = useDispatch();
   const fetchProducts = async () => {
@@ -13,6 +13,7 @@ const ProductPage = () => {
       .catch((err) => {
         console.log("Err: ", err);
       });
+      console.log({response})
     dispatch(setProducts(response.data));
   };
 
@@ -31,4 +32,3 @@ const ProductPage = () => {
   );
 };
 
-export default ProductPage;

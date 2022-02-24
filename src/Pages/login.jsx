@@ -1,16 +1,15 @@
 /* eslint-disable */
-import { Button } from "../Compnents/Button";
-import { Icon } from "../Compnents/Icon";
-import { InputButton } from "../Compnents/Input";
-
-const getemail = (event) => {
-  console.log(event.target.value);
-};
-const getpassword = (event) => {
-  console.log(event.target.value);
-};
-
-const Login = (props) => {
+import React,{useState,useEffect} from 'react'
+import { Button ,InputButton,Icon} from "../Compnents";
+import { useDispatch } from 'react-redux';
+import {signIn} from "../api/index"
+import {loginUser} from "../redux/actions/auth"
+import {toastr} from 'react-redux-toastr'
+export const Login = (props) => {
+  const dispatch = useDispatch();
+  // const navigate = useNavigate();
+  const [form, setForm] = useState({email:"",password:""});
+  console.log({form})
   const iconcss = {
     background:
       "conic-gradient(from -45deg, #ea4335 110deg, #4285f4 90deg 180deg, #34a853 180deg 270deg, #fbbc05 270deg) 73% 55%/150% 150% no-repeat",
@@ -36,7 +35,28 @@ const Login = (props) => {
     color: "#4285F4",
     fontSize: "15px",
   };
+  const handleChange = (e) => {
+  setForm({ ...form, [e.target.name]: e.target.value} );
+  }
 
+  const login = async() =>{
+    await signIn(form).then((res)=>{
+      console.log({res})
+      
+      if(res.status === 200){
+        toastr.success(`Welcome ${res.data.name}`) 
+        dispatch(loginUser(res))
+      }elseif(res.status === 500)
+      {
+        toastr.error(`${err.message}`)
+      }
+    }).catch((err)=>{
+      console.log(err)
+    })
+  }
+  useEffect(()=>{
+    login()
+  },[])
   return (
     <>
       <div className="login ">
@@ -99,7 +119,8 @@ const Login = (props) => {
               >
                 <InputButton
                   type="text"
-                  press={getemail}
+                  name="email"
+                  onChange={handleChange}
                   class="form-control"
                   placeholder="Enter Email"
                   style={inputcss}
@@ -110,8 +131,9 @@ const Login = (props) => {
                 style={{ marginBottom: "20px", marginTop: "10px" }}
               >
                 <InputButton
-                  type="text"
-                  press={getpassword}
+                  type="password"
+                  name='password'
+                  onChange={handleChange}
                   class="form-control"
                   placeholder="Enter Password"
                   style={inputcss}
@@ -140,6 +162,7 @@ const Login = (props) => {
                   type="submit"
                   innertext="Login"
                   style={radiuscss}
+                  onClick={login}
                 />
               </div>
             </div>
@@ -168,4 +191,3 @@ const Login = (props) => {
     </>
   );
 };
-export default Login;

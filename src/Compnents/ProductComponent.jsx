@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Card ,Button} from "react-bootstrap";
-const ProductComponent = () => {
+export const ProductComponent = () => {
   const products = useSelector((state) => state.allProducts.products);
   const renderList = products.map((product) => {
     const { id, title, image, price, category } = product;
@@ -27,4 +27,3 @@ const ProductComponent = () => {
   return <>{renderList}</>;
 };
 
-export default ProductComponent;

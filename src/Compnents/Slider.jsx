@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React from 'react'
 import  {Carousel,Container,Row} from "react-bootstrap"
-const Slider = () => {
+export const Slider = () => {
     return (
       <>
           <Container fluid aria-expanded>
