@@ -4,24 +4,20 @@ import {Navbar,Container,Nav,FormControl,Form,Button, Row, Col} from "react-boot
 import "../assests/css/modern.css"
 import LoginModal from "./Modals/LoginModal";
 import RegisterModal from "./Modals/RegisterModal";
-import { useDispatch, useSelector,useHistory, useLocation } from "react-redux";
-import decode from 'jwt-decode';
-export const Header = () => {
+import { useNavigate } from "react-router-dom"
+import { useDispatch, useSelector,useHistory, useLocation,connect } from "react-redux";
+// import decode from 'jwt-decode';
+ const Header = (props) => {
+   const navigate = useNavigate()
+  const data = JSON.parse(window && window.sessionStorage.getItem('userDetails'))
+  console.log({data})
   const [modalShow, setModalShow] = useState(false);
-  const [registermodalShow, setRegisterModalShow] = useState(false);
-  const loginUser = useSelector((user) => user.auth);
-  console.log({loginUser})
-  useEffect(() => {
-    const token = loginUser?.data;
-
-    if (token) {
-      const decodedToken = decode(token);
-
-      if (decodedToken.exp * 1000 < new Date().getTime());
+  const [registermodalShow, setRegisterModalShow] = useState(false); 
+  useEffect(()=>{
+    if(data){
+      navigate('/')
     }
-
-    // setUser(JSON.parse(localStorage.getItem('accessToken')));
-  }, [location]);
+  },[])
   return (
     <>
       <Navbar collapseOnSelect expand="lg" id="header" fixed="top">
@@ -49,7 +45,7 @@ export const Header = () => {
             </Form>
           </Nav>
           <Nav>
-            {loginUser?.data ? (<p>Welcome{loginUser.data.name}</p>):( <Row className="justify-content-md-center">
+            {data?.data ? (<p>Welcome{data?.data.name}</p>):( <Row className="justify-content-md-center">
               <Col xs>
                 <Nav>
                   <Button variant="danger" onClick={() => setModalShow(true)}>
@@ -82,3 +78,10 @@ export const Header = () => {
     </>
   );
 };
+const mapStateToProps = (state)=>{
+  console.log('State Items Rec and Set to Props ',state);
+  return {
+      'myitems':state.auth.user
+  }
+}
+export default connect(mapStateToProps)(Header);

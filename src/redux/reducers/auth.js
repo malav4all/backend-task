@@ -1,10 +1,12 @@
 import { Auth } from "../constants/action-types";
-
-export const loginUser = (state = {}, {type,payload}) =>{
-  console.log({payload})
+const intialState = {
+  user:[]
+}
+export const loginUser = (state = intialState, {type,payload}) =>{
+  // console.log({payload})
   switch (type) {
     case Auth.LOGIN:
-      return { ...state, ...payload };
+      return { ...state, user:payload };
     default:
       return state;
   }

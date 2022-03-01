@@ -13,7 +13,7 @@ export const ProductListing = () => {
       .catch((err) => {
         console.log("Err: ", err);
       });
-      console.log({response})
+      // console.log({response})
     dispatch(setProducts(response.data));
   };
 
@@ -21,7 +21,7 @@ export const ProductListing = () => {
     fetchProducts();
   }, []);
 
-  console.log("Products :", products);
+  // console.log("Products :", products);
   return (
     <>
     <span>Shops Your Products</span>

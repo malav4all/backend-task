@@ -1,7 +1,7 @@
 export * from "./Button"
 export * from "./Footer"
 export * from "./Home"
-export * from "./Navbar"
+// export * as Headerr fom "./Navbar"
 export * from "./ProductComponent"
 export * from "./ProductDetails"
 export * from "./ProductListing"

@@ -1,5 +1,6 @@
 import React from 'react'
-import {Header,Slider,ProductListing,Footer} from "./index"
+import {Slider,ProductListing,Footer} from "./index"
+import Header from "./Navbar"
 export const  Home = () => {
   return (
     <>

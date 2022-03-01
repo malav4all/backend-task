@@ -1,15 +1,19 @@
 /* eslint-disable */
-import React,{useState,useEffect} from 'react'
-import { Button ,InputButton,Icon} from "../Compnents";
+import React, { useState, useEffect } from 'react'
+import { Button, InputButton, Icon } from "../Compnents";
 import { useDispatch } from 'react-redux';
-import {signIn} from "../api/index"
-import {loginUser} from "../redux/actions/auth"
-import {toastr} from 'react-redux-toastr'
+import { useNavigate } from "react-router-dom"
+import { signIn } from "../api/index"
+import { loginUser } from "../redux/actions/auth"
+import { toastr } from 'react-redux-toastr'
+import { saveToken, savedDetailsInSession } from "../modules/storage"
+import { Tosat } from "../api/toast"
 export const Login = (props) => {
   const dispatch = useDispatch();
-  // const navigate = useNavigate();
-  const [form, setForm] = useState({email:"",password:""});
-  console.log({form})
+  const navigate = useNavigate();
+  
+  const [form, setForm] = useState({ email: "", password: "" });
+  // console.log({ form })
   const iconcss = {
     background:
       "conic-gradient(from -45deg, #ea4335 110deg, #4285f4 90deg 180deg, #34a853 180deg 270deg, #fbbc05 270deg) 73% 55%/150% 150% no-repeat",
@@ -36,27 +40,34 @@ export const Login = (props) => {
     fontSize: "15px",
   };
   const handleChange = (e) => {
-  setForm({ ...form, [e.target.name]: e.target.value} );
+    setForm({ ...form, [e.target.name]: e.target.value });
   }
 
-  const login = async() =>{
-    await signIn(form).then((res)=>{
-      console.log({res})
-      
-      if(res.status === 200){
-        toastr.success(`Welcome ${res.data.name}`) 
-        dispatch(loginUser(res))
-      }elseif(res.status === 500)
-      {
-        toastr.error(`${err.message}`)
+  const login = async () => {
+
+    try {
+      const result = await signIn(form);
+      console.log({ result })
+      if (result.status === 200) {
+        saveToken(result.data.accessToken);
+        savedDetailsInSession(result)
+        dispatch(loginUser(result))
+        Tosat.success(`Welcome ${result.data.name}`)
+       
+      } else if (result.status === 500) {
+        Tosat.error(`${res.message}`)
       }
-    }).catch((err)=>{
-      console.log(err)
-    })
+
+    } catch (e) {
+      console.log(e)
+    }
+
   }
-  useEffect(()=>{
-    login()
-  },[])
+  useEffect(() => {
+    
+      login()
+    
+  }, [])
   return (
     <>
       <div className="login ">
@@ -64,7 +75,7 @@ export const Login = (props) => {
           <div className="col" style={{ margin: "20px" }}>
             <div className="heading-Area col">
               <h3 style={{ fontWeight: "700" }} className="text-center">Login</h3>
-              
+
             </div>
             <div
               className="social-Login col"
