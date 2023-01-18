@@ -12,7 +12,7 @@ const  RegisterModal = (props) => {
       >
         <Modal.Header closeButton></Modal.Header>
         <Modal.Body>
-          <Register />
+          <Register close={props.onHide} />
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={props.onHide}>Close</Button>

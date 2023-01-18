@@ -1,17 +1,18 @@
-import axios from  "axios"
- const API = axios.create({baseURL:"http://localhost:5000"})
+import axios from "axios";
+const API = axios.create({ baseURL: "http://localhost:5000" });
 
-
-// API.interceptors.request.use((req)=>{
-//     console.log(req)
-//     if(localStorage.getItem('accessToken')){
-//         req = `Bearer ${localStorage.getItem('accessToken')}`
-//     }
-//     return req;
-// })
-export const signIn = (formData) =>  API.post('/auth/login', formData);
-
-
-
-
-
+class Apihandler {
+  login = (data) =>
+    new Promise((resolve, reject) => {
+      API.post("/auth/login", data)
+        .then((res) => resolve(res))
+        .catch((error) => reject(error));
+    });
+  register = (data) =>
+    new Promise((resolve, reject) => {
+      API.post("/auth/register", data)
+        .then((res) => resolve(res))
+        .catch((err) => reject(err));
+    });
+}
+export const api = new Apihandler();

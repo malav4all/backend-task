@@ -1,17 +1,19 @@
 /* eslint-disable */
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from "react";
 import { Button, InputButton, Icon } from "../Compnents";
-import { useDispatch } from 'react-redux';
-import { useNavigate } from "react-router-dom"
-import { signIn } from "../api/index"
-import { loginUser } from "../redux/actions/auth"
-import { toastr } from 'react-redux-toastr'
-import { saveToken, savedDetailsInSession } from "../modules/storage"
-import { Tosat } from "../api/toast"
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { Apihandler, signIn } from "../api/index";
+import { loginUser } from "../redux/actions/auth";
+import { toastr } from "react-redux-toastr";
+import { saveToken, savedDetailsInSession } from "../modules/storage";
+import { Tosat } from "../api/toast";
+import { api } from "../api/index";
+// import {useHistory} from "react-router-dom"
 export const Login = (props) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  
+
   const [form, setForm] = useState({ email: "", password: "" });
   // console.log({ form })
   const iconcss = {
@@ -41,41 +43,33 @@ export const Login = (props) => {
   };
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
-  }
+  };
 
-  const login = async () => {
+  const login = () => {
+     api
+      .login(form)
+      .then((res) => {
+        if (res?.data?.message?.setting?.success ===1) {
+          Tosat.success(`${res?.data?.message?.setting?.message}`);
+          navigate("/dashboard");
+        }else if(res?.data?.message?.settings?.success ===0){
+          Tosat.error(`${res?.data?.message?.settings?.message}`);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
-    try {
-      const result = await signIn(form);
-      console.log({ result })
-      if (result.status === 200) {
-        saveToken(result.data.accessToken);
-        savedDetailsInSession(result)
-        dispatch(loginUser(result))
-        Tosat.success(`Welcome ${result.data.name}`)
-       
-      } else if (result.status === 500) {
-        Tosat.error(`${res.message}`)
-      }
-
-    } catch (e) {
-      console.log(e)
-    }
-
-  }
-  useEffect(() => {
-    
-      login()
-    
-  }, [])
   return (
     <>
       <div className="login ">
         <div className="row">
           <div className="col" style={{ margin: "20px" }}>
             <div className="heading-Area col">
-              <h3 style={{ fontWeight: "700" }} className="text-center">Login</h3>
-
+              <h3 style={{ fontWeight: "700" }} className="text-center">
+                Login
+              </h3>
             </div>
             <div
               className="social-Login col"
@@ -143,7 +137,7 @@ export const Login = (props) => {
               >
                 <InputButton
                   type="password"
-                  name='password'
+                  name="password"
                   onChange={handleChange}
                   class="form-control"
                   placeholder="Enter Password"

@@ -1,23 +1,41 @@
 /* eslint-disable */
-import React,{useState,useEffect} from "react";
-import {Navbar,Container,Nav,FormControl,Form,Button, Row, Col} from "react-bootstrap"
-import "../assests/css/modern.css"
+import React, { useState, useEffect } from "react";
+import {
+  Navbar,
+  Container,
+  Nav,
+  FormControl,
+  Form,
+  Button,
+  Row,
+  Col,
+} from "react-bootstrap";
+import "../assests/css/modern.css";
 import LoginModal from "./Modals/LoginModal";
 import RegisterModal from "./Modals/RegisterModal";
-import { useNavigate } from "react-router-dom"
-import { useDispatch, useSelector,useHistory, useLocation,connect } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import {
+  useDispatch,
+  useSelector,
+  useHistory,
+  useLocation,
+  connect,
+} from "react-redux";
 // import decode from 'jwt-decode';
- const Header = (props) => {
-   const navigate = useNavigate()
-  const data = JSON.parse(window && window.sessionStorage.getItem('userDetails'))
-  console.log({data})
+const Header = (props) => {
+  const navigate = useNavigate();
+  const data = JSON.parse(
+    window && window.sessionStorage.getItem("userDetails")
+  );
+  console.log({ data });
   const [modalShow, setModalShow] = useState(false);
-  const [registermodalShow, setRegisterModalShow] = useState(false); 
-  useEffect(()=>{
-    if(data){
-      navigate('/')
+  const [registermodalShow, setRegisterModalShow] = useState(false);
+  const [loginModalShow, setLoginModalShow] = useState(false);
+  useEffect(() => {
+    if (data) {
+      navigate("/");
     }
-  },[])
+  }, []);
   return (
     <>
       <Navbar collapseOnSelect expand="lg" id="header" fixed="top">
@@ -45,15 +63,15 @@ import { useDispatch, useSelector,useHistory, useLocation,connect } from "react-
             </Form>
           </Nav>
           <Nav>
-            {data?.data ? (<p>Welcome{data?.data.name}</p>):( <Row className="justify-content-md-center">
+            <Row className="justify-content-md-center">
               <Col xs>
                 <Nav>
-                  <Button variant="danger" onClick={() => setModalShow(true)}>
+                  <Button variant="danger" onClick={() => setLoginModalShow(true)}>
                     Login
                   </Button>
                   <LoginModal
-                    show={modalShow}
-                    onHide={() => setModalShow(false)}
+                    show={loginModalShow}
+                    onHide={() => setLoginModalShow(false)}
                   />
                 </Nav>
               </Col>
@@ -71,17 +89,16 @@ import { useDispatch, useSelector,useHistory, useLocation,connect } from "react-
                   />
                 </Nav>
               </Col>
-            </Row>)}
+            </Row>
           </Nav>
         </Container>
       </Navbar>
     </>
   );
 };
-const mapStateToProps = (state)=>{
-  console.log('State Items Rec and Set to Props ',state);
+const mapStateToProps = (state) => {
   return {
-      'myitems':state.auth.user
-  }
-}
+    myitems: state.auth.user,
+  };
+};
 export default connect(mapStateToProps)(Header);
